@@ -1,16 +1,15 @@
-# 🦉 Automatic Lung segmentation
+# Automatic Lung segmentation
 ## Introduction
-The automatic segmentation of the lung region for chest X-ray (CXR) can help doctors diagnose many lung diseases. However, extreme lung shape changes and fuzzy lung regions caused by serious lung diseases may incorrectly make the automatic lung segmentation model.
+The automatic segmentation of the lung region in chest X-rays (CXR) aids doctors in diagnosing various lung diseases. However, severe lung deformities and indistinct lung boundaries caused by serious conditions can lead to errors in the segmentation model.
 
 ## Data and task description
 ![data-example](images/data-example.png)
 
 Dataset consists of collected from public available chest X-Ray (CXR) images.
 Overall amount of images is 800 meanwhile labeled only 704 of them.
-Whole dataset was randomly divided into train (0.8 of total) validation (0.1 splited from train) and test parts. Splits were saved into ```splits.pk```.
+Whole dataset was randomly divided into train (0.8 of total) validation (0.1 splited from train) and test parts.
 
 The main task is to implement pixel-wise segmentation on the available data to detect lung area.
-Download link on the dataset https://drive.google.com/file/d/1ffbbyoPf-I3Y0iGbBahXpWqYdGd7xxQQ/view.
 
 ## Proposed solution
 The most obvious solution for semantic segmentation problems is UNet - fully convolutional network with an encoder-decoder path. High-resolution features from the contracting path are combined with the upsampled output in order to predict more precise output based on this information, which is the main idea of this architecture.
@@ -29,20 +28,8 @@ Networks were trained on a batch of 4 images during more than 50 epochs on avera
 
 After 40 epoch network stops to improve validation score and network began to overfit.
 
-Weights with best validation scores were saved into ```models/``` folder. 
-Weights description:
 
 - unet-2v: simple unet + augmentation
-
-```
-Best epoch
-epoch: 30/200, time: 156.41338729858398, train loss: 0.047798131544717216, 
-val loss: 0.06580803386474911, val jaccard: 0.9143155990985402, val dice: 0.9541912308910436
-```
-
-```
-epochs: 159, overall time: 413.0m, mean epoch time: 156.15773498037325s
-```
 
 ```
 test loss: 0.0634, test jaccard: 0.9110, test dice: 0.9520
@@ -51,27 +38,12 @@ test loss: 0.0634, test jaccard: 0.9110, test dice: 0.9520
 - unet-6v: pretrained vgg11 encoder + batch_norm + bilinear upscale + augmentation
 
 ```
-Best epoch
-epoch: 44/100, time: 135.7923891544342, train loss: 0.04682422929955094, 
-val loss: 0.06021084505737873, val jaccard: 0.9213985225610566, val dice: 0.9580973742301004
-```
-
-```
-epochs: 100, overall time: 227.0m, mean epoch time: 136.41898714780808s
-```
-
-```
 test loss: 0.0530, test jaccard: 0.9268, test dice: 0.9611
 ```
-
-Implementation of the described above solution using PyTorch you could find in ``scr/`` folder and `main.ipynb` notebook.
 
 
 ## Evaluation
 For evaluation of model output was Jaccard and Dice metrics, well known for such kind of computer vision tasks.
-Jaccard also is known as Intersection over Union, while Dice is the same with F1 measure. They are both showing almost the same things - overlap between ground truth and calculated mask. 
-
-The main disadvantage is that they consider only the number of true positives, false positives and false negatives and ignore predicted location. So, more reasonable is to use average contour distance and average surface distance. These metrics are not implemented yet, more information about them you could find in "Accurate Lung Segmentation via Network-WiseTraining of Convolutional Networks" preprint, check out references list.
 
 Evaluation was performed on test dataset, which was not used during training phase. 
 
@@ -81,7 +53,7 @@ Some you obtained results could see on the figure below.
 
 ![obtained-results](images/obtained-results.png)
 
-## More Samples
+## More Image Processing Samples for Future Task
 ![obtained-results](images/box-sample-Cardiomegaly.png)
 
 ## References

@@ -81,11 +81,8 @@ Some you obtained results could see on the figure below.
 
 ![obtained-results](images/obtained-results.png)
 
-## Next steps
-There are some future steps on the way to improve the current solution:
-- implement k-fold cross validation
-- use transposed convolution instead of bilinear upscaling
-- try more powerful encoder (i.e. resnet)
+## More Samples
+![obtained-results](images/box-sample-Cardiomegaly.png)
 
 ## References
 - https://arxiv.org/pdf/1505.04597.pdf - U-Net: Convolutional Networks for Biomedical Image Segmentation
